@@ -15,6 +15,8 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/rundir)
 find_package(HDF5 REQUIRED)
 include_directories(${HDF5_INCLUDE_DIR})
 link_directories(${HDF5_LIBRARY_DIRS})
+# enable old HDF5 API
+add_definitions(-DH5_USE_16_API)
 
 add_subdirectory(src)
 
