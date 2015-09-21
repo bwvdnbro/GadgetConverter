@@ -1,0 +1,14 @@
+POS 	Coordinates
+VEL 	Velocities
+ID  	ParticleIDs
+MASS	Masses
+U   	InternalEnergy
+RHO 	Density
+HSML	SmoothingLength
+TSTP	TimeStep
+ZSPH	SphMetallicity
+FESP	SphFe
+MGSP	SphMg
+TEMP	Temperature
+PRES	Pressure
+DVEL	DivergenceVelocity
