@@ -2,6 +2,8 @@ set(SOURCES
     Array.hpp
     Block.cpp
     Block.hpp
+    CommandLineArguments.cpp
+    CommandLineArguments.hpp
     Error.hpp
     Header.cpp
     Header.hpp
