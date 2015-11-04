@@ -12,3 +12,10 @@ MGSP	SphMg
 TEMP	Temperature
 PRES	Pressure
 DVEL	DivergenceVelocity
+ZSTA	StarMetallicity
+FEST    StarFe
+MGST    StarMg
+INMA    InitialMass
+MYP     MyStarParticle
+TFOR    FormationTime
+

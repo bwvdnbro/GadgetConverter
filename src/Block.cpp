@@ -43,6 +43,7 @@ Block::Block(std::istream& stream, Array<unsigned int, 6> npart, TypeMap &tm)
         }
     }
     _name = std::string(name);
+//    cout << "Block: " << _name << endl;
     _type = tm.get_type(_name);
     if(_name == "HEAD"){
         _vec = false;
@@ -80,12 +81,21 @@ Block::Block(std::istream& stream, Array<unsigned int, 6> npart, TypeMap &tm)
             _mesh[4] = false;
             _mesh[5] = false;
         } else {
-            _mesh[0] = true;
-            _mesh[1] = npart[1] > 0;
-            _mesh[2] = npart[2] > 0;
-            _mesh[3] = npart[3] > 0;
-            _mesh[4] = npart[4] > 0;
-            _mesh[5] = npart[5] > 0;
+            if(npart[4]*sizeof(float) == datasize){
+                _mesh[0] = false;
+                _mesh[1] = false;
+                _mesh[2] = false;
+                _mesh[3] = false;
+                _mesh[4] = true;
+                _mesh[5] = false;
+            } else{
+                _mesh[0] = true;
+                _mesh[1] = npart[1] > 0;
+                _mesh[2] = npart[2] > 0;
+                _mesh[3] = npart[3] > 0;
+                _mesh[4] = npart[4] > 0;
+                _mesh[5] = npart[5] > 0;
+            }
         }
         blocksize = get_blocksize(stream);
         for(unsigned int i = 0; i < 6; i++){
