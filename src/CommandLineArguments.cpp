@@ -30,6 +30,12 @@ enum CommandLineArgumentNames{
     ARGUMENT_OUTPUT_NAME
 };
 
+
+void print_usage(){
+    cout << "USAGE: GadgetConverter --input_name NAME --output_name NAME"
+         << endl;
+}
+
 CommandLineArguments::CommandLineArguments(int argc, char **argv){
     // read the command line arguments using getopt
     static struct option long_options[] = {
@@ -37,7 +43,7 @@ CommandLineArguments::CommandLineArguments(int argc, char **argv){
         {"output_name", required_argument, NULL, ARGUMENT_OUTPUT_NAME},
         {0, 0, 0, 0}
     };
-    
+
     int c;
     opterr = 0;
     while((c = getopt_long(argc, argv, "i:o:", long_options, NULL)) != -1){
@@ -63,7 +69,7 @@ CommandLineArguments::CommandLineArguments(int argc, char **argv){
             break;
         }
     }
-    
+
     // check if all obligatory arguments have been specified
     if(!_input_name.size()){
         error("Error: no input file name given!");
@@ -71,7 +77,7 @@ CommandLineArguments::CommandLineArguments(int argc, char **argv){
     if(!_output_name.size()){
         error("Error: no output file name given!");
     }
-    
+
     // make sure the _output_name contains a .hdf5 extension
     if(_output_name.find(".hdf5") != _output_name.size()-5){
         _output_name += string(".hdf5");

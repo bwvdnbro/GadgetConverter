@@ -25,13 +25,15 @@ class CommandLineArguments{
 private:
     /*! \brief Name of the old snapshot to convert */
     std::string _input_name;
-    
+
     /*! \brief Name of the newly created converted snapshot */
     std::string _output_name;
 
+    void print_usage();
+
 public:
     CommandLineArguments(int argc, char **argv);
-    
+
     std::string get_input_name();
     std::string get_output_name();
 };
