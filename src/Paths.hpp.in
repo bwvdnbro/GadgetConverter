@@ -16,34 +16,11 @@
  * along with GadgetConverter. If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-#include "NameMap.hpp"
-#include "Paths.hpp"
+#ifndef PATHS_HPP
+#define PATHS_HPP
 
-#include <fstream>
-#include <iostream>
-using namespace std;
+#define NAMEMAP_PATH "@NAMEMAP_PATH@"
 
-NameMap::NameMap(){
-    ifstream ifile(NAMEMAP_PATH);
-    if(ifile.good()){
-        std::string key;
-        std::string name;
-        while(ifile.good()){
-            ifile >> key >> name;
-            _dict[key] = name;
-        }
-    } else {
-        // Error!
-    }
-}
+#define TYPEMAP_PATH "@TYPEMAP_PATH@"
 
-string NameMap::get_name(string key){
-    return _dict[key];
-}
-
-void NameMap::print_contents(){
-    typedef map< string, string >::iterator iterator;
-    for(iterator it = _dict.begin(); it != _dict.end(); ++it){
-        cout << it->first << ": " << it->second << endl;
-    }
-}
+#endif // PATHS_HPP

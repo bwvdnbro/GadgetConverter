@@ -16,6 +16,15 @@
 # along with GadgetConverter. If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
+configure_file(${PROJECT_SOURCE_DIR}/resources/names.txt
+               ${PROJECT_BINARY_DIR}/resources/names.txt COPYONLY)
+set(NAMEMAP_PATH ${PROJECT_BINARY_DIR}/resources/names.txt)
+configure_file(${PROJECT_SOURCE_DIR}/resources/types.txt
+               ${PROJECT_BINARY_DIR}/resources/types.txt COPYONLY)
+set(TYPEMAP_PATH ${PROJECT_BINARY_DIR}/resources/types.txt)
+configure_file(${PROJECT_SOURCE_DIR}/src/Paths.hpp.in
+               ${PROJECT_BINARY_DIR}/src/Paths.hpp @ONLY)
+
 set(SOURCES
     Array.hpp
     Block.cpp
@@ -28,6 +37,7 @@ set(SOURCES
     main.cpp
     NameMap.cpp
     NameMap.hpp
+    Paths.hpp.in
     Reader.cpp
     Reader.hpp
     TypeMap.cpp

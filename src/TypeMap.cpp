@@ -17,6 +17,7 @@
  ******************************************************************************/
 
 #include "TypeMap.hpp"
+#include "Paths.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -28,7 +29,7 @@ TypeMap::TypeMap(){
     types["FLOAT"] = H5T_NATIVE_FLOAT;
     types["INT"] = H5T_NATIVE_UINT32;
 
-    ifstream ifile("resources/types.txt");
+    ifstream ifile(TYPEMAP_PATH);
     if(ifile.good()){
         string key;
         string type;

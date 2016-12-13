@@ -37,9 +37,9 @@ Reader::Reader(string filename){
     if(_file.good()){
         _header = Header(_file);
 //        _header.print_contents();
-        
+
         Array<unsigned int, 6> npart = _header.get_npart();
-        
+
         // reset the stream
         _file.seekg(0);
         while(_file.peek() != EOF){

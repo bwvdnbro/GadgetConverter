@@ -29,6 +29,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wignored-qualifiers -Werror")
 # write executables to a specific directory
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/rundir)
 
+include_directories(${PROJECT_BINARY_DIR}/src)
+
 # include external libraries
 find_package(HDF5 REQUIRED)
 include_directories(${HDF5_INCLUDE_DIR})
