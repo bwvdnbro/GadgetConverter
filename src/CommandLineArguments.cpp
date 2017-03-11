@@ -27,11 +27,12 @@ using namespace std;
 
 enum CommandLineArgumentNames{
     ARGUMENT_INPUT_NAME,
-    ARGUMENT_OUTPUT_NAME
+    ARGUMENT_OUTPUT_NAME,
+    ARGUMENT_HELP
 };
 
 
-void print_usage(){
+void CommandLineArguments::print_usage(){
     cout << "USAGE: GadgetConverter --input_name NAME --output_name NAME"
          << endl;
 }
@@ -41,12 +42,13 @@ CommandLineArguments::CommandLineArguments(int argc, char **argv){
     static struct option long_options[] = {
         {"input_name", required_argument, NULL, ARGUMENT_INPUT_NAME},
         {"output_name", required_argument, NULL, ARGUMENT_OUTPUT_NAME},
+        {"help", no_argument, NULL, ARGUMENT_HELP},
         {0, 0, 0, 0}
     };
 
     int c;
     opterr = 0;
-    while((c = getopt_long(argc, argv, "i:o:", long_options, NULL)) != -1){
+    while((c = getopt_long(argc, argv, "i:o:h", long_options, NULL)) != -1){
         switch(c){
         case ARGUMENT_INPUT_NAME:
         {
@@ -58,10 +60,17 @@ CommandLineArguments::CommandLineArguments(int argc, char **argv){
             _output_name = optarg;
             break;
         }
+        case ARGUMENT_HELP:
+        {
+            print_usage();
+            exit(0);
+            break;
+        }
         case '?':
         {
             cout << "warning: unknown command line argument \""
                  << argv[optind-1] << "\" is ignored" << endl;
+            print_usage();
             break;
         }
         default:
@@ -72,9 +81,11 @@ CommandLineArguments::CommandLineArguments(int argc, char **argv){
 
     // check if all obligatory arguments have been specified
     if(!_input_name.size()){
+        print_usage();
         error("Error: no input file name given!");
     }
     if(!_output_name.size()){
+        print_usage();
         error("Error: no output file name given!");
     }
 
