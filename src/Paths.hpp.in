@@ -23,4 +23,6 @@
 
 #define TYPEMAP_PATH "@TYPEMAP_PATH@"
 
+#define TYPE1LIST_PATH "@TYPE1LIST_PATH@"
+
 #endif // PATHS_HPP

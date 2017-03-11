@@ -29,6 +29,9 @@ private:
     /*! \brief Name of the newly created converted snapshot */
     std::string _output_name;
 
+    /*! \brief Does the snapshot use Gadget file format type 1? */
+    bool _type_1;
+
     void print_usage();
 
 public:
@@ -36,6 +39,7 @@ public:
 
     std::string get_input_name();
     std::string get_output_name();
+    bool is_type_1();
 };
 
 #endif // COMMANDLINEARGUMENTS_HPP

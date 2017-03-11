@@ -22,6 +22,9 @@ set(NAMEMAP_PATH ${PROJECT_BINARY_DIR}/resources/names.txt)
 configure_file(${PROJECT_SOURCE_DIR}/resources/types.txt
                ${PROJECT_BINARY_DIR}/resources/types.txt COPYONLY)
 set(TYPEMAP_PATH ${PROJECT_BINARY_DIR}/resources/types.txt)
+configure_file(${PROJECT_SOURCE_DIR}/resources/type1_list.txt
+               ${PROJECT_BINARY_DIR}/resources/type1_list.txt COPYONLY)
+set(TYPE1LIST_PATH ${PROJECT_BINARY_DIR}/resources/type1_list.txt)
 configure_file(${PROJECT_SOURCE_DIR}/src/Paths.hpp.in
                ${PROJECT_BINARY_DIR}/src/Paths.hpp @ONLY)
 
@@ -42,6 +45,8 @@ set(SOURCES
     Reader.hpp
     TypeMap.cpp
     TypeMap.hpp
+    Type1List.cpp
+    Type1List.hpp
     Utils.hpp
     Writer.cpp
     Writer.hpp

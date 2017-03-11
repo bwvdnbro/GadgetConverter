@@ -49,27 +49,34 @@ using namespace Utils;
  * @param npart Number of particles of each type
  * @param tm TypeMap used to link block names to internal data types
  */
-Block::Block(std::istream& stream, Array<unsigned int, 6> npart, TypeMap &tm)
+Block::Block(std::istream& stream, Array<unsigned int, 6> npart, TypeMap &tm,
+             std::string block_name, bool type_1)
     : _stream(stream) {
-    unsigned int blocksize = get_blocksize(stream);
-    char name[5];
-    stream.read(name, 4);
-    name[4] = '\0';
-    for(unsigned int i = 0; i < 4; i++){
-        if(name[i] == ' '){
-            name[i] = '\0';
+    unsigned int blocksize;
+    if(type_1){
+        _name = block_name;
+    } else {
+        blocksize = get_blocksize(stream);
+        char name[5];
+        stream.read(name, 4);
+        name[4] = '\0';
+        for(unsigned int i = 0; i < 4; i++){
+            if(name[i] == ' '){
+                name[i] = '\0';
+            }
         }
-    }
-    _name = std::string(name);
-//    cout << "Block: " << _name << endl;
-    _type = tm.get_type(_name);
-    if(_name == "HEAD"){
-        _vec = false;
+        // read the data size field, but ignore its contents
         get_blocksize(stream);
         blocksize -= get_blocksize(stream);
         if(blocksize){
             error("Wrong blocksize!");
         }
+        _name = std::string(name);
+    }
+//    cout << "Block: " << _name << endl;
+    _type = tm.get_type(_name);
+    if(_name == "HEAD"){
+        _vec = false;
         blocksize = get_blocksize(stream);
         stream.seekg(blocksize, stream.cur);
         blocksize -= get_blocksize(stream);
@@ -78,12 +85,6 @@ Block::Block(std::istream& stream, Array<unsigned int, 6> npart, TypeMap &tm)
         }
     } else {
         unsigned int datasize = get_blocksize(stream);
-        blocksize -= get_blocksize(stream);
-        if(blocksize){
-            error("Wrong blocksize!");
-        }
-        // subtract size of block info at start and ending of datablock
-        datasize -= 8;
         unsigned int totnpart = 0;
         for(unsigned int i = 0; i < 6; i++){
             totnpart += npart[i];
@@ -115,7 +116,6 @@ Block::Block(std::istream& stream, Array<unsigned int, 6> npart, TypeMap &tm)
                 _mesh[5] = npart[5] > 0;
             }
         }
-        blocksize = get_blocksize(stream);
         for(unsigned int i = 0; i < 6; i++){
             _streampos[i] = stream.tellg();
             if(_mesh[i]){
@@ -126,7 +126,7 @@ Block::Block(std::istream& stream, Array<unsigned int, 6> npart, TypeMap &tm)
                 stream.seekg(_streamsize[i], stream.cur);
             }
         }
-        blocksize -= get_blocksize(stream);
+        datasize -= get_blocksize(stream);
         if(blocksize){
             error("Wrong blocksize!");
         }

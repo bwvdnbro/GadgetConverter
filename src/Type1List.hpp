@@ -1,6 +1,6 @@
 /*******************************************************************************
  * This file is part of GadgetConverter
- * Copyright (C) 2016 Bert Vandenbroucke (bert.vandenbroucke@gmail.com)
+ * Copyright (C) 2017 Bert Vandenbroucke (bert.vandenbroucke@gmail.com)
  *
  * GadgetConverter is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -16,30 +16,25 @@
  * along with GadgetConverter. If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-#ifndef READER_HPP
-#define READER_HPP
+#ifndef TYPE1LIST_HPP
+#define TYPE1LIST_HPP
 
-// forward declarations (alphabetically)
-class Block;
-class Header;
-
-// standard library includes (alphabetically)
-#include <fstream>
-#include <string>
+// standard library includes
 #include <vector>
+#include <string>
 
-class Reader{
+class Type1List{
 private:
-    std::ifstream _file;
-    Header _header;
-    std::vector< Block* > _blocks;
+    std::vector< std::string > _list;
+    unsigned int _curpos;
 
 public:
-    Reader(std::string filename, bool type_1);
-    ~Reader();
+    Type1List();
 
-    Header &get_header();
-    std::vector< Block* > &get_blocks();
+    bool has_next_field();
+    std::string get_next_field();
+
+    void print_contents();
 };
 
-#endif // READER_HPP
+#endif // TYPE1LIST_HPP

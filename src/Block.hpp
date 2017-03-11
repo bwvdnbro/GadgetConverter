@@ -54,35 +54,35 @@ private:
      * @brief HDF5-type of the data in the Block
      */
     hid_t _type;
-    
+
     /**
      * @brief Reference to the snapshot file containing the actual data
      */
     std::istream &_stream;
-    
+
     /**
      * @brief (Old) name of the Block
      */
     std::string _name;
-    
+
     /**
      * @brief Array keeping track of which particle types have data for this
      * Block
      */
     Array<bool, 6> _mesh;
-    
+
     /**
      * @brief Offsets of the data for the different particle types in the
      * snapshot file
      */
     Array<int, 6> _streampos;
-    
+
     /**
      * @brief Sizes (in bytes) for the data of the different particle types in
      * the snapshot file
      */
     Array<int, 6> _streamsize;
-    
+
     /**
      * @brief Flag indicating whether the Block contains vector (true) or scalar
      * (false) data
@@ -90,8 +90,9 @@ private:
     bool _vec;
 
 public:
-    Block(std::istream& stream, Array<unsigned int, 6> npart, TypeMap &tm);
-    
+    Block(std::istream& stream, Array<unsigned int, 6> npart, TypeMap &tm,
+          std::string block_name, bool type_1);
+
     bool is_vec();
     unsigned int get_size(unsigned int parttype);
     std::vector< char > get_buffer(unsigned int parttype);

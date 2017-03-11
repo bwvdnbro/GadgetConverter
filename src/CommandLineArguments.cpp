@@ -28,13 +28,14 @@ using namespace std;
 enum CommandLineArgumentNames{
     ARGUMENT_INPUT_NAME,
     ARGUMENT_OUTPUT_NAME,
-    ARGUMENT_HELP
+    ARGUMENT_HELP,
+    ARGUMENT_TYPE_1
 };
 
 
 void CommandLineArguments::print_usage(){
-    cout << "USAGE: GadgetConverter --input_name NAME --output_name NAME"
-         << endl;
+    cout << "USAGE: GadgetConverter --input_name NAME --output_name NAME "
+         << "[--type_1]" << endl;
 }
 
 CommandLineArguments::CommandLineArguments(int argc, char **argv){
@@ -43,12 +44,15 @@ CommandLineArguments::CommandLineArguments(int argc, char **argv){
         {"input_name", required_argument, NULL, ARGUMENT_INPUT_NAME},
         {"output_name", required_argument, NULL, ARGUMENT_OUTPUT_NAME},
         {"help", no_argument, NULL, ARGUMENT_HELP},
+        {"type_1", no_argument, NULL, ARGUMENT_TYPE_1},
         {0, 0, 0, 0}
     };
 
+    _type_1 = false;
+
     int c;
     opterr = 0;
-    while((c = getopt_long(argc, argv, "i:o:h", long_options, NULL)) != -1){
+    while((c = getopt_long(argc, argv, "i:o:ht", long_options, NULL)) != -1){
         switch(c){
         case ARGUMENT_INPUT_NAME:
         {
@@ -64,6 +68,11 @@ CommandLineArguments::CommandLineArguments(int argc, char **argv){
         {
             print_usage();
             exit(0);
+            break;
+        }
+        case ARGUMENT_TYPE_1:
+        {
+            _type_1 = true;
             break;
         }
         case '?':
@@ -101,4 +110,8 @@ std::string CommandLineArguments::get_input_name(){
 
 std::string CommandLineArguments::get_output_name(){
     return _output_name;
+}
+
+bool CommandLineArguments::is_type_1(){
+    return _type_1;
 }

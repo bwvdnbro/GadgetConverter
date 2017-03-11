@@ -1,0 +1,12 @@
+HEAD
+POS 
+VEL 
+ID  
+MASS
+U   
+RHO 
+HSML
+POT 
+ACCE
+ENDT
+TSTP

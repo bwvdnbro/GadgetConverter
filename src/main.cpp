@@ -28,7 +28,7 @@ using namespace std;
 int main(int argc, char **argv){
     CommandLineArguments args(argc, argv);
 
-    Reader reader(args.get_input_name());
+    Reader reader(args.get_input_name(), args.is_type_1());
 
     Header header = reader.get_header();
     vector< Block* > blocks = reader.get_blocks();

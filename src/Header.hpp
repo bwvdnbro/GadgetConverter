@@ -45,20 +45,20 @@ private:
     int _flag_metals;
     Array<unsigned int, 6> _npart_total_highword;
     int _flag_entropy_instead_u;
-    
+
     template<typename T, unsigned int N> void read(std::istream &stream,
                                                    Array<T, N> &a){
         stream.read(a, a.memsize());
     }
-    
+
     template<typename T> void read(std::istream &stream, T &d){
         stream.read(reinterpret_cast<char*>(&d), sizeof(T));
     }
 
 public:
     Header();
-    Header(std::istream &stream);
-    
+    Header(std::istream &stream, bool type_1);
+
     Array<unsigned int, 6> &get_npart();
     Array<double, 6> &get_masses();
     double get_time();
@@ -67,7 +67,7 @@ public:
     Array<unsigned int, 6> &get_npart_total();
     Array<unsigned int, 6> &get_npart_highword();
     double get_redshift();
-    
+
     void print_contents();
 };
 

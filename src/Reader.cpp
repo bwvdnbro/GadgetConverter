@@ -22,6 +22,7 @@
 #include "Header.hpp"
 #include "Reader.hpp"
 #include "TypeMap.hpp"
+#include "Type1List.hpp"
 
 // standard library includes (alphabetically)
 #include <fstream>
@@ -31,19 +32,21 @@ using namespace std;
 
 //# public methods
 
-Reader::Reader(string filename){
+Reader::Reader(string filename, bool type_1){
     TypeMap tm;
+    Type1List t1;
     _file.open(filename.c_str());
     if(_file.good()){
-        _header = Header(_file);
+        _header = Header(_file, type_1);
 //        _header.print_contents();
 
         Array<unsigned int, 6> npart = _header.get_npart();
 
         // reset the stream
         _file.seekg(0);
-        while(_file.peek() != EOF){
-            _blocks.push_back(new Block(_file, npart, tm));
+        while(_file.peek() != EOF && t1.has_next_field()){
+            _blocks.push_back(new Block(_file, npart, tm,
+                                        t1.get_next_field(), type_1));
         }
         // drop the HEAD block
         delete _blocks[0];

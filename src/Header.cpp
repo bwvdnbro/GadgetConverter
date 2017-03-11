@@ -32,14 +32,17 @@ using namespace Utils;
 
 Header::Header() : _time(0.), _redshift(0.) {}
 
-Header::Header(istream &stream){
-    unsigned int blocksize = get_blocksize(stream);
-    char name[4];
-    stream.read(name, 4);
-    get_blocksize(stream);
-    blocksize -= get_blocksize(stream);
-    if(blocksize){
-        error("Wrong blocksize!");
+Header::Header(istream &stream, bool type_1){
+    unsigned int blocksize;
+    if(!type_1){
+        blocksize = get_blocksize(stream);
+        char name[4];
+        stream.read(name, 4);
+        get_blocksize(stream);
+        blocksize -= get_blocksize(stream);
+        if(blocksize){
+            error("Wrong blocksize!");
+        }
     }
     blocksize = get_blocksize(stream);
     read(stream, _npart);
@@ -63,7 +66,7 @@ Header::Header(istream &stream){
     read(stream, _flag_metals);
     read(stream, _npart_total_highword);
     read(stream, _flag_entropy_instead_u);
-    
+
     char rest[52];
     stream.read(rest, 52);
     blocksize -= get_blocksize(stream);

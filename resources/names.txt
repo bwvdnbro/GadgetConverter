@@ -18,4 +18,6 @@ MGST    StarMg
 INMA    InitialMass
 MYP     MyStarParticle
 TFOR    FormationTime
-
+POT 	Potential
+ACCE	Acceleration
+ENDT	RateOfChangeOfEntropy
