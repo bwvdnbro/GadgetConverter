@@ -44,9 +44,15 @@ Reader::Reader(string filename, bool type_1) {
 
     // reset the stream
     _file.seekg(0);
-    while (_file.peek() != EOF && t1.has_next_field()) {
-      _blocks.push_back(
-          new Block(_file, npart, tm, t1.get_next_field(), type_1));
+    if (type_1) {
+      while (_file.peek() != EOF && t1.has_next_field()) {
+        _blocks.push_back(
+            new Block(_file, npart, tm, t1.get_next_field(), type_1));
+      }
+    } else {
+      while (_file.peek() != EOF) {
+        _blocks.push_back(new Block(_file, npart, tm, "", type_1));
+      }
     }
     // drop the HEAD block
     delete _blocks[0];

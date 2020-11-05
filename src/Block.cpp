@@ -127,7 +127,7 @@ Block::Block(std::istream &stream, Array<unsigned int, 6> npart, TypeMap &tm,
       }
     }
     datasize -= get_blocksize(stream);
-    if (blocksize) {
+    if (datasize) {
       error("Wrong blocksize!");
     }
   }
