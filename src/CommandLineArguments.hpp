@@ -21,25 +21,25 @@
 
 #include <string>
 
-class CommandLineArguments{
+class CommandLineArguments {
 private:
-    /*! \brief Name of the old snapshot to convert */
-    std::string _input_name;
+  /*! \brief Name of the old snapshot to convert */
+  std::string _input_name;
 
-    /*! \brief Name of the newly created converted snapshot */
-    std::string _output_name;
+  /*! \brief Name of the newly created converted snapshot */
+  std::string _output_name;
 
-    /*! \brief Does the snapshot use Gadget file format type 1? */
-    bool _type_1;
+  /*! \brief Does the snapshot use Gadget file format type 1? */
+  bool _type_1;
 
-    void print_usage();
+  void print_usage();
 
 public:
-    CommandLineArguments(int argc, char **argv);
+  CommandLineArguments(int argc, char **argv);
 
-    std::string get_input_name();
-    std::string get_output_name();
-    bool is_type_1();
+  std::string get_input_name();
+  std::string get_output_name();
+  bool is_type_1();
 };
 
 #endif // COMMANDLINEARGUMENTS_HPP

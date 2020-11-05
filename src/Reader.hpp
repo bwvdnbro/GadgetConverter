@@ -28,18 +28,18 @@ class Header;
 #include <string>
 #include <vector>
 
-class Reader{
+class Reader {
 private:
-    std::ifstream _file;
-    Header _header;
-    std::vector< Block* > _blocks;
+  std::ifstream _file;
+  Header _header;
+  std::vector<Block *> _blocks;
 
 public:
-    Reader(std::string filename, bool type_1);
-    ~Reader();
+  Reader(std::string filename, bool type_1);
+  ~Reader();
 
-    Header &get_header();
-    std::vector< Block* > &get_blocks();
+  Header &get_header();
+  std::vector<Block *> &get_blocks();
 };
 
 #endif // READER_HPP

@@ -49,88 +49,88 @@ using namespace Utils;
  * @param npart Number of particles of each type
  * @param tm TypeMap used to link block names to internal data types
  */
-Block::Block(std::istream& stream, Array<unsigned int, 6> npart, TypeMap &tm,
+Block::Block(std::istream &stream, Array<unsigned int, 6> npart, TypeMap &tm,
              std::string block_name, bool type_1)
     : _stream(stream) {
-    unsigned int blocksize;
-    if(type_1){
-        _name = block_name;
-    } else {
-        blocksize = get_blocksize(stream);
-        char name[5];
-        stream.read(name, 4);
-        name[4] = '\0';
-        for(unsigned int i = 0; i < 4; i++){
-            if(name[i] == ' '){
-                name[i] = '\0';
-            }
-        }
-        // read the data size field, but ignore its contents
-        get_blocksize(stream);
-        blocksize -= get_blocksize(stream);
-        if(blocksize){
-            error("Wrong blocksize!");
-        }
-        _name = std::string(name);
+  unsigned int blocksize;
+  if (type_1) {
+    _name = block_name;
+  } else {
+    blocksize = get_blocksize(stream);
+    char name[5];
+    stream.read(name, 4);
+    name[4] = '\0';
+    for (unsigned int i = 0; i < 4; i++) {
+      if (name[i] == ' ') {
+        name[i] = '\0';
+      }
     }
-//    cout << "Block: " << _name << endl;
-    _type = tm.get_type(_name);
-    if(_name == "HEAD"){
-        _vec = false;
-        blocksize = get_blocksize(stream);
-        stream.seekg(blocksize, stream.cur);
-        blocksize -= get_blocksize(stream);
-        if(blocksize){
-            error("Wrong blocksize!");
-        }
-    } else {
-        unsigned int datasize = get_blocksize(stream);
-        unsigned int totnpart = 0;
-        for(unsigned int i = 0; i < 6; i++){
-            totnpart += npart[i];
-        }
-        // some magic to find out which particle types are present
-        // might be wrong for some snapshots...
-        _vec = (datasize/(totnpart*sizeof(float)) == 3);
-        if(npart[0]*sizeof(float) == datasize){
-            _mesh[0] = true;
-            _mesh[1] = false;
-            _mesh[2] = false;
-            _mesh[3] = false;
-            _mesh[4] = false;
-            _mesh[5] = false;
-        } else {
-            if(npart[4]*sizeof(float) == datasize){
-                _mesh[0] = false;
-                _mesh[1] = false;
-                _mesh[2] = false;
-                _mesh[3] = false;
-                _mesh[4] = true;
-                _mesh[5] = false;
-            } else{
-                _mesh[0] = true;
-                _mesh[1] = npart[1] > 0;
-                _mesh[2] = npart[2] > 0;
-                _mesh[3] = npart[3] > 0;
-                _mesh[4] = npart[4] > 0;
-                _mesh[5] = npart[5] > 0;
-            }
-        }
-        for(unsigned int i = 0; i < 6; i++){
-            _streampos[i] = stream.tellg();
-            if(_mesh[i]){
-                _streamsize[i] = npart[i]*sizeof(float);
-                if(_vec){
-                    _streamsize[i] *= 3;
-                }
-                stream.seekg(_streamsize[i], stream.cur);
-            }
-        }
-        datasize -= get_blocksize(stream);
-        if(blocksize){
-            error("Wrong blocksize!");
-        }
+    // read the data size field, but ignore its contents
+    get_blocksize(stream);
+    blocksize -= get_blocksize(stream);
+    if (blocksize) {
+      error("Wrong blocksize!");
     }
+    _name = std::string(name);
+  }
+  //    cout << "Block: " << _name << endl;
+  _type = tm.get_type(_name);
+  if (_name == "HEAD") {
+    _vec = false;
+    blocksize = get_blocksize(stream);
+    stream.seekg(blocksize, stream.cur);
+    blocksize -= get_blocksize(stream);
+    if (blocksize) {
+      error("Wrong blocksize!");
+    }
+  } else {
+    unsigned int datasize = get_blocksize(stream);
+    unsigned int totnpart = 0;
+    for (unsigned int i = 0; i < 6; i++) {
+      totnpart += npart[i];
+    }
+    // some magic to find out which particle types are present
+    // might be wrong for some snapshots...
+    _vec = (datasize / (totnpart * sizeof(float)) == 3);
+    if (npart[0] * sizeof(float) == datasize) {
+      _mesh[0] = true;
+      _mesh[1] = false;
+      _mesh[2] = false;
+      _mesh[3] = false;
+      _mesh[4] = false;
+      _mesh[5] = false;
+    } else {
+      if (npart[4] * sizeof(float) == datasize) {
+        _mesh[0] = false;
+        _mesh[1] = false;
+        _mesh[2] = false;
+        _mesh[3] = false;
+        _mesh[4] = true;
+        _mesh[5] = false;
+      } else {
+        _mesh[0] = true;
+        _mesh[1] = npart[1] > 0;
+        _mesh[2] = npart[2] > 0;
+        _mesh[3] = npart[3] > 0;
+        _mesh[4] = npart[4] > 0;
+        _mesh[5] = npart[5] > 0;
+      }
+    }
+    for (unsigned int i = 0; i < 6; i++) {
+      _streampos[i] = stream.tellg();
+      if (_mesh[i]) {
+        _streamsize[i] = npart[i] * sizeof(float);
+        if (_vec) {
+          _streamsize[i] *= 3;
+        }
+        stream.seekg(_streamsize[i], stream.cur);
+      }
+    }
+    datasize -= get_blocksize(stream);
+    if (blocksize) {
+      error("Wrong blocksize!");
+    }
+  }
 }
 
 /**
@@ -139,9 +139,7 @@ Block::Block(std::istream& stream, Array<unsigned int, 6> npart, TypeMap &tm,
  * @return True if the Block contains vector data, false if it contains scalar
  * data
  */
-bool Block::is_vec(){
-    return _vec;
-}
+bool Block::is_vec() { return _vec; }
 
 /**
  * @brief Get the number of data cells in the Block for the given particle type
@@ -149,14 +147,14 @@ bool Block::is_vec(){
  * @param parttype Type of the particles for which we want the data size
  * @return Number of data cells for the given particle type
  */
-unsigned int Block::get_size(unsigned int parttype){
-    if(_type == H5T_NATIVE_FLOAT){
-        return _streamsize[parttype]/sizeof(float);
-    }
-    if(_type == H5T_NATIVE_UINT32){
-        return _streamsize[parttype]/sizeof(unsigned int);
-    }
-    return 0;
+unsigned int Block::get_size(unsigned int parttype) {
+  if (_type == H5T_NATIVE_FLOAT) {
+    return _streamsize[parttype] / sizeof(float);
+  }
+  if (_type == H5T_NATIVE_UINT32) {
+    return _streamsize[parttype] / sizeof(unsigned int);
+  }
+  return 0;
 }
 
 /**
@@ -166,11 +164,11 @@ unsigned int Block::get_size(unsigned int parttype){
  * @param parttype Type of the particles for which we want the raw data
  * @return Binary buffer containing the raw data for the given particle type
  */
-vector<char> Block::get_buffer(unsigned int parttype){
-    vector<char> buffer(_streamsize[parttype]);
-    _stream.seekg(_streampos[parttype]);
-    _stream.read(&buffer[0], _streamsize[parttype]);
-    return buffer;
+vector<char> Block::get_buffer(unsigned int parttype) {
+  vector<char> buffer(_streamsize[parttype]);
+  _stream.seekg(_streampos[parttype]);
+  _stream.read(&buffer[0], _streamsize[parttype]);
+  return buffer;
 }
 
 /**
@@ -178,18 +176,14 @@ vector<char> Block::get_buffer(unsigned int parttype){
  *
  * @return HDF5-type of the data in the Block
  */
-hid_t Block::get_type(){
-    return _type;
-}
+hid_t Block::get_type() { return _type; }
 
 /**
  * @brief Get the Gadget snapshot name of the Block
  *
  * @return The Gadget snapshot name of the Block (old name)
  */
-std::string Block::get_name(){
-    return _name;
-}
+std::string Block::get_name() { return _name; }
 
 /**
  * @brief Check whether the Block contains data for the given particle type
@@ -197,6 +191,4 @@ std::string Block::get_name(){
  * @param index Type of particles for which we want to check if there is data
  * @return True if there is data for the given particle type
  */
-bool Block::has_data(unsigned int index){
-    return _mesh[index];
-}
+bool Block::has_data(unsigned int index) { return _mesh[index]; }

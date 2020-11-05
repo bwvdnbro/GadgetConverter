@@ -25,93 +25,80 @@
 
 using namespace std;
 
-enum CommandLineArgumentNames{
-    ARGUMENT_INPUT_NAME,
-    ARGUMENT_OUTPUT_NAME,
-    ARGUMENT_HELP,
-    ARGUMENT_TYPE_1
+enum CommandLineArgumentNames {
+  ARGUMENT_INPUT_NAME,
+  ARGUMENT_OUTPUT_NAME,
+  ARGUMENT_HELP,
+  ARGUMENT_TYPE_1
 };
 
-
-void CommandLineArguments::print_usage(){
-    cout << "USAGE: GadgetConverter --input_name NAME --output_name NAME "
-         << "[--type_1]" << endl;
+void CommandLineArguments::print_usage() {
+  cout << "USAGE: GadgetConverter --input_name NAME --output_name NAME "
+       << "[--type_1]" << endl;
 }
 
-CommandLineArguments::CommandLineArguments(int argc, char **argv){
-    // read the command line arguments using getopt
-    static struct option long_options[] = {
-        {"input_name", required_argument, NULL, ARGUMENT_INPUT_NAME},
-        {"output_name", required_argument, NULL, ARGUMENT_OUTPUT_NAME},
-        {"help", no_argument, NULL, ARGUMENT_HELP},
-        {"type_1", no_argument, NULL, ARGUMENT_TYPE_1},
-        {0, 0, 0, 0}
-    };
+CommandLineArguments::CommandLineArguments(int argc, char **argv) {
+  // read the command line arguments using getopt
+  static struct option long_options[] = {
+      {"input_name", required_argument, NULL, ARGUMENT_INPUT_NAME},
+      {"output_name", required_argument, NULL, ARGUMENT_OUTPUT_NAME},
+      {"help", no_argument, NULL, ARGUMENT_HELP},
+      {"type_1", no_argument, NULL, ARGUMENT_TYPE_1},
+      {0, 0, 0, 0}};
 
-    _type_1 = false;
+  _type_1 = false;
 
-    int c;
-    opterr = 0;
-    while((c = getopt_long(argc, argv, "i:o:ht", long_options, NULL)) != -1){
-        switch(c){
-        case ARGUMENT_INPUT_NAME:
-        {
-            _input_name = optarg;
-            break;
-        }
-        case ARGUMENT_OUTPUT_NAME:
-        {
-            _output_name = optarg;
-            break;
-        }
-        case ARGUMENT_HELP:
-        {
-            print_usage();
-            exit(0);
-            break;
-        }
-        case ARGUMENT_TYPE_1:
-        {
-            _type_1 = true;
-            break;
-        }
-        case '?':
-        {
-            cout << "warning: unknown command line argument \""
-                 << argv[optind-1] << "\" is ignored" << endl;
-            print_usage();
-            break;
-        }
-        default:
-            // NEVER END UP HERE
-            break;
-        }
+  int c;
+  opterr = 0;
+  while ((c = getopt_long(argc, argv, "i:o:ht", long_options, NULL)) != -1) {
+    switch (c) {
+    case ARGUMENT_INPUT_NAME: {
+      _input_name = optarg;
+      break;
     }
-
-    // check if all obligatory arguments have been specified
-    if(!_input_name.size()){
-        print_usage();
-        error("Error: no input file name given!");
+    case ARGUMENT_OUTPUT_NAME: {
+      _output_name = optarg;
+      break;
     }
-    if(!_output_name.size()){
-        print_usage();
-        error("Error: no output file name given!");
+    case ARGUMENT_HELP: {
+      print_usage();
+      exit(0);
+      break;
     }
-
-    // make sure the _output_name contains a .hdf5 extension
-    if(_output_name.find(".hdf5") != _output_name.size()-5){
-        _output_name += string(".hdf5");
+    case ARGUMENT_TYPE_1: {
+      _type_1 = true;
+      break;
     }
+    case '?': {
+      cout << "warning: unknown command line argument \"" << argv[optind - 1]
+           << "\" is ignored" << endl;
+      print_usage();
+      break;
+    }
+    default:
+      // NEVER END UP HERE
+      break;
+    }
+  }
+
+  // check if all obligatory arguments have been specified
+  if (!_input_name.size()) {
+    print_usage();
+    error("Error: no input file name given!");
+  }
+  if (!_output_name.size()) {
+    print_usage();
+    error("Error: no output file name given!");
+  }
+
+  // make sure the _output_name contains a .hdf5 extension
+  if (_output_name.find(".hdf5") != _output_name.size() - 5) {
+    _output_name += string(".hdf5");
+  }
 }
 
-std::string CommandLineArguments::get_input_name(){
-    return _input_name;
-}
+std::string CommandLineArguments::get_input_name() { return _input_name; }
 
-std::string CommandLineArguments::get_output_name(){
-    return _output_name;
-}
+std::string CommandLineArguments::get_output_name() { return _output_name; }
 
-bool CommandLineArguments::is_type_1(){
-    return _type_1;
-}
+bool CommandLineArguments::is_type_1() { return _type_1; }

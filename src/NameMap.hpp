@@ -23,16 +23,16 @@
 #include <map>
 #include <string>
 
-class NameMap{
+class NameMap {
 private:
-    std::map< std::string, std::string > _dict;
+  std::map<std::string, std::string> _dict;
 
 public:
-    NameMap();
+  NameMap();
 
-    std::string get_name(std::string key);
+  std::string get_name(std::string key);
 
-    void print_contents();
+  void print_contents();
 };
 
 #endif // NAMEMAP_HPP

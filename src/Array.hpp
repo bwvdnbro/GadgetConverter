@@ -34,94 +34,88 @@
  * around pointers and it is more clear what size an input array to a routine
  * will have.
  */
-template<typename T, unsigned int N> class Array{
+template <typename T, unsigned int N> class Array {
 private:
-    /**
-     * @brief The actual plain C array that is stored in memory
-     */
-    T _array[N];
+  /**
+   * @brief The actual plain C array that is stored in memory
+   */
+  T _array[N];
 
 public:
-    /**
-     * @brief Constructor
-     *
-     * Initializes an empty Array
-     */
-    inline Array(){
-        for(unsigned int i = 0; i < N; ++i){
-            _array[i] = 0;
-        }
+  /**
+   * @brief Constructor
+   *
+   * Initializes an empty Array
+   */
+  inline Array() {
+    for (unsigned int i = 0; i < N; ++i) {
+      _array[i] = 0;
     }
-    
-    /**
-     * @brief Copy constructor
-     *
-     * Creates a new Array with the same contents as the given Array. The
-     * contents are copied, so that it is safe to manipulate the old Array
-     * afterwards.
-     *
-     * @param a Array to be copied
-     * @return Reference to the newly created Array
-     */
-    inline Array& operator=(const Array &a){
-        for(unsigned int i = 0; i < N; ++i){
-            _array[i] = a._array[i];
-        }
-        return *this;
+  }
+
+  /**
+   * @brief Copy constructor
+   *
+   * Creates a new Array with the same contents as the given Array. The
+   * contents are copied, so that it is safe to manipulate the old Array
+   * afterwards.
+   *
+   * @param a Array to be copied
+   * @return Reference to the newly created Array
+   */
+  inline Array &operator=(const Array &a) {
+    for (unsigned int i = 0; i < N; ++i) {
+      _array[i] = a._array[i];
     }
-    
-    /**
-     * @brief Copy constructor
-     *
-     * Creates a new Array with the same contents as the given Array. The
-     * contents are copied, so that it is safe to manipulate the old Array
-     * afterwards.
-     *
-     * @param a Array to be copied
-     */
-    inline Array(Array &a){
-        for(unsigned int i = 0; i < N; ++i){
-            _array[i] = a._array[i];
-        }
+    return *this;
+  }
+
+  /**
+   * @brief Copy constructor
+   *
+   * Creates a new Array with the same contents as the given Array. The
+   * contents are copied, so that it is safe to manipulate the old Array
+   * afterwards.
+   *
+   * @param a Array to be copied
+   */
+  inline Array(Array &a) {
+    for (unsigned int i = 0; i < N; ++i) {
+      _array[i] = a._array[i];
     }
-    
-    /**
-     * @brief Access operator
-     *
-     * Returns a reference to the index-th element of the Array. This is
-     * identical to manipulating the underlying plain C array.
-     *
-     * @param index Index of the element of the array that is accessed
-     * @return Reference to the element at the given position in the Array
-     */
-    inline T &operator[](unsigned int index){
-        return _array[index];
-    }
-    
-    /**
-     * @brief Dereference operator
-     *
-     * Return a pointer to a bitwise representation of the Array that can be
-     * used for binary input/output.
-     *
-     * @return Pointer to a binary representation of the Array
-     */
-    inline operator char*(){
-        return reinterpret_cast<char*>(_array);
-    }
-    
-    /**
-     * @brief Get the size in memory of the Array
-     *
-     * Returns the size (in bytes) in memory of the underlying C array. This
-     * corresponds to the size of the array pointed to by the return value of
-     * operator char*().
-     *
-     * @return Size (in bytes) of the array in memory
-     */
-    inline unsigned int memsize(){
-        return N*sizeof(T);
-    }
+  }
+
+  /**
+   * @brief Access operator
+   *
+   * Returns a reference to the index-th element of the Array. This is
+   * identical to manipulating the underlying plain C array.
+   *
+   * @param index Index of the element of the array that is accessed
+   * @return Reference to the element at the given position in the Array
+   */
+  inline T &operator[](unsigned int index) { return _array[index]; }
+
+  /**
+   * @brief Dereference operator
+   *
+   * Return a pointer to a bitwise representation of the Array that can be
+   * used for binary input/output.
+   *
+   * @return Pointer to a binary representation of the Array
+   */
+  inline operator char *() { return reinterpret_cast<char *>(_array); }
+
+  /**
+   * @brief Get the size in memory of the Array
+   *
+   * Returns the size (in bytes) in memory of the underlying C array. This
+   * corresponds to the size of the array pointed to by the return value of
+   * operator char*().
+   *
+   * @return Size (in bytes) of the array in memory
+   */
+  inline unsigned int memsize() { return N * sizeof(T); }
 };
 
 #endif // ARRAY_HPP

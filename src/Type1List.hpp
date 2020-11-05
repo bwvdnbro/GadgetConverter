@@ -20,21 +20,21 @@
 #define TYPE1LIST_HPP
 
 // standard library includes
-#include <vector>
 #include <string>
+#include <vector>
 
-class Type1List{
+class Type1List {
 private:
-    std::vector< std::string > _list;
-    unsigned int _curpos;
+  std::vector<std::string> _list;
+  unsigned int _curpos;
 
 public:
-    Type1List();
+  Type1List();
 
-    bool has_next_field();
-    std::string get_next_field();
+  bool has_next_field();
+  std::string get_next_field();
 
-    void print_contents();
+  void print_contents();
 };
 
 #endif // TYPE1LIST_HPP

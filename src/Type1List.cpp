@@ -24,31 +24,29 @@
 
 using namespace std;
 
-Type1List::Type1List(){
-    ifstream ifile(TYPE1LIST_PATH);
-    if(ifile.good()){
-        string element;
-        while(ifile >> element){
-            _list.push_back(element);
-        }
-    } else {
-        // error!
+Type1List::Type1List() {
+  ifstream ifile(TYPE1LIST_PATH);
+  if (ifile.good()) {
+    string element;
+    while (ifile >> element) {
+      _list.push_back(element);
     }
-    _curpos = 0;
+  } else {
+    // error!
+  }
+  _curpos = 0;
 }
 
-bool Type1List::has_next_field(){
-    return _curpos < _list.size();
+bool Type1List::has_next_field() { return _curpos < _list.size(); }
+
+string Type1List::get_next_field() {
+  unsigned int curpos = _curpos;
+  ++_curpos;
+  return _list[curpos];
 }
 
-string Type1List::get_next_field(){
-    unsigned int curpos = _curpos;
-    ++_curpos;
-    return _list[curpos];
-}
-
-void Type1List::print_contents(){
-    for(unsigned int i = 0; i < _list.size(); ++i){
-        cout << "List[" << i << "]: '" << _list[i] << "'" << endl;
-    }
+void Type1List::print_contents() {
+  for (unsigned int i = 0; i < _list.size(); ++i) {
+    cout << "List[" << i << "]: '" << _list[i] << "'" << endl;
+  }
 }

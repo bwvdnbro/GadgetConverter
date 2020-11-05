@@ -26,16 +26,16 @@
 // external library includes
 #include <hdf5.h>
 
-class TypeMap{
+class TypeMap {
 private:
-    std::map< std::string, hid_t > _dict;
+  std::map<std::string, hid_t> _dict;
 
 public:
-    TypeMap();
+  TypeMap();
 
-    hid_t get_type(std::string key);
+  hid_t get_type(std::string key);
 
-    void print_contents();
+  void print_contents();
 };
 
 #endif // TYPEMAP_HPP
