@@ -21,7 +21,9 @@
 
 // forward declarations (alphabetically)
 class Block;
-class Header;
+
+// local includes
+#include "Header.hpp"
 
 // standard library includes (alphabetically)
 #include <fstream>
